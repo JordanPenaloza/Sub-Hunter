@@ -52,7 +52,7 @@ public class SubHunter extends Activity {
         the code that is needed for
         the one-time setup.
      */
-
+    private Submarine submarine;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -67,6 +67,8 @@ public class SubHunter extends Activity {
         numberVerticalPixels = size.y;
         blockSize = numberHorizontalPixels / gridWidth;
         gridHeight = numberVerticalPixels / blockSize;
+
+        submarine = new Submarine(gridWidth, gridHeight);
 
         // Initialize all the objects ready for drawing
         blankBitmap = Bitmap.createBitmap(numberHorizontalPixels,
@@ -93,9 +95,7 @@ public class SubHunter extends Activity {
         and after the player wins a game.
      */
     void newGame(){
-        Random random = new Random();
-        subHorizontalPosition = random.nextInt(gridWidth);
-        subVerticalPosition = random.nextInt(gridHeight);
+        submarine.setNewPosition(gridWidth, gridHeight);
         shotsTaken = 0;
 
         Log.d("Debugging", "In newGame");
@@ -192,15 +192,15 @@ public class SubHunter extends Activity {
         verticalTouched = (int)touchY/ blockSize;
 
         // Did the shot hit the sub?
-        hit = horizontalTouched == subHorizontalPosition
-                && verticalTouched == subVerticalPosition;
+        hit = horizontalTouched == submarine.getHorizontalPosition()
+                && verticalTouched == submarine.getVerticalPosition();
 
         // How far away horizontally and vertically
         // was the shot from the sub
         int horizontalGap = (int)horizontalTouched -
-                subHorizontalPosition;
+                submarine.getHorizontalPosition();
         int verticalGap = (int)verticalTouched -
-                subVerticalPosition;
+                submarine.getVerticalPosition();
 
         // Use Pythagoras's theorem to get the
         // distance travelled in a straight line
