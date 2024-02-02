@@ -19,7 +19,7 @@ import android.widget.ImageView;
 import java.util.Random;
 
 
-public class SubHunter extends Activity {
+public class SubHunter extends Activity implements Drawable {
 
     // These variables can be "seen"
     // throughout the SubHunter class
@@ -107,7 +107,7 @@ public class SubHunter extends Activity {
         The grid lines, the HUD and
         the touch indicator
      */
-    void draw() {
+    public void draw() {
         gameView.setImageBitmap(blankBitmap);
 
         // Wipe the screen with a white color
@@ -147,6 +147,7 @@ public class SubHunter extends Activity {
                 blockSize, blockSize * 1.75f,
                 paint);
 
+        gameView.setImageBitmap(blankBitmap);
 
         Log.d("Debugging", "In draw");
         if (debugging) {

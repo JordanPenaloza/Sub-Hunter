@@ -26,3 +26,4 @@ public class Submarine {
         verticalPosition = random.nextInt(gridHeight);
     }
 }
+
