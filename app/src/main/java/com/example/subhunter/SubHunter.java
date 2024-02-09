@@ -19,7 +19,7 @@ import android.widget.ImageView;
 import java.util.Random;
 
 
-public class SubHunter extends Activity implements Drawable {
+public class SubHunter extends Activity {
 
     // These variables can be "seen"
     // throughout the SubHunter class
@@ -147,7 +147,7 @@ public class SubHunter extends Activity implements Drawable {
                 blockSize, blockSize * 1.75f,
                 paint);
 
-        gameView.setImageBitmap(blankBitmap);
+
 
         Log.d("Debugging", "In draw");
         if (debugging) {
