@@ -86,10 +86,6 @@ public class SubHunter extends Activity {
         gameDrawer.draw();
     }
 
-
-
-
-
     @Override
     public boolean onTouchEvent(MotionEvent motionEvent) {
         Log.d("Debugging", "In onTouchEvent");
@@ -129,8 +125,6 @@ public class SubHunter extends Activity {
                 ((horizontalGap() * horizontalGap()) +
                         (verticalGap() * verticalGap())));
     }
-
-
     void boom(){
 
         gameView.setImageBitmap(blankBitmap);

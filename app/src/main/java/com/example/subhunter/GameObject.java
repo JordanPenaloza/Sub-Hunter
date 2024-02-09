@@ -13,10 +13,12 @@ public class GameObject {
     }
 
     public int getHorizontalPosition() {
+
         return horizontalPosition;
     }
 
     public int getVerticalPosition() {
+
         return verticalPosition;
     }
 
