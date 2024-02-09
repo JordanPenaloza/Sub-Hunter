@@ -162,14 +162,11 @@ public class SubHunter extends Activity {
     @Override
     public boolean onTouchEvent(MotionEvent motionEvent) {
         Log.d("Debugging", "In onTouchEvent");
-        // Has the player removed their finger from the screen?
-        if((motionEvent.getAction() & MotionEvent.ACTION_MASK) == MotionEvent.ACTION_UP) {
 
-            // Process the player's shot by passing the
-            // coordinates of the player's finger to takeShot
+        boolean Touching = (motionEvent.getAction() & MotionEvent.ACTION_MASK) == MotionEvent.ACTION_UP;
+        if(Touching) {
             takeShot(motionEvent.getX(), motionEvent.getY());
         }
-
         return true;
     }
 
