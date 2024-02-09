@@ -3,8 +3,6 @@
 // If so, keep YOUR line- not this one
 package com.example.subhunter;
 
-// These are all the classes of other people's
-// (Android) code that we use in Sub Hunt
 import android.app.Activity;
 import android.os.Bundle;
 import android.view.MotionEvent;
@@ -16,13 +14,11 @@ import android.graphics.Paint;
 import android.graphics.Point;
 import android.view.Display;
 import android.widget.ImageView;
-import java.util.Random;
+
 
 
 public class SubHunter extends Activity {
 
-    // These variables can be "seen"
-    // throughout the SubHunter class
     int numberHorizontalPixels;
     int numberVerticalPixels;
     int blockSize;
@@ -34,7 +30,6 @@ public class SubHunter extends Activity {
     int subVerticalPosition;
     boolean hit = false;
     int shotsTaken;
-    int distanceFromSub;
     boolean debugging = false;
 
     // Here are all the objects(instances)
@@ -45,24 +40,15 @@ public class SubHunter extends Activity {
     Paint paint;
 
 
-    /*
-        Android runs this code just before
-        the app is seen by the player.
-        This makes it a good place to add
-        the code that is needed for
-        the one-time setup.
-     */
     private Submarine submarine;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        // Get the current device's screen resolution
         Display display = getWindowManager().getDefaultDisplay();
         Point size = new Point();
         display.getSize(size);
 
-        // Initialize our size based variables based on the screen resolution
         numberHorizontalPixels = size.x;
         numberVerticalPixels = size.y;
         blockSize = numberHorizontalPixels / gridWidth;
@@ -87,13 +73,6 @@ public class SubHunter extends Activity {
         newGame();
         draw();
     }
-
-    /*
-        This code will execute when a new
-        game needs to be started. It will
-        happen when the app is first started
-        and after the player wins a game.
-     */
     void newGame(){
         submarine.setNewPosition(gridWidth, gridHeight);
         shotsTaken = 0;
@@ -101,12 +80,6 @@ public class SubHunter extends Activity {
         Log.d("Debugging", "In newGame");
 
     }
-
-    /*
-        Here we will do all the drawing.
-        The grid lines, the HUD and
-        the touch indicator
-     */
     public void draw() {
         gameView.setImageBitmap(blankBitmap);
         canvas.drawColor(Color.argb(255, 255, 255, 255));
@@ -149,16 +122,11 @@ public class SubHunter extends Activity {
         paint.setColor(Color.argb(255, 0, 0, 255));
         canvas.drawText(
                 "Shots Taken: " + shotsTaken +
-                        "  Distance: " + distanceFromSub,
+                        "  Distance: " + distanceFromSub(),
                 blockSize, blockSize * 1.75f,
                 paint);
     }
 
-    /*
-        This part of the code will
-        handle detecting that the player
-        has tapped the screen
-     */
     @Override
     public boolean onTouchEvent(MotionEvent motionEvent) {
         Log.d("Debugging", "In onTouchEvent");
@@ -170,74 +138,52 @@ public class SubHunter extends Activity {
         return true;
     }
 
-
-    /*
-        The code here will execute when
-        the player taps the screen It will
-        calculate distance from the sub'
-        and determine a hit or miss
-     */
     void takeShot(float touchX, float touchY){
         Log.d("Debugging", "In takeShot");
-
-        // Add one to the shotsTaken variable
         shotsTaken ++;
+        horizontalTouched =  (int) touchX / blockSize;
+        verticalTouched =  (int) touchY / blockSize;
 
-        // Convert the float screen coordinates
-        // into int grid coordinates
-        horizontalTouched = (int)touchX/ blockSize;
-        verticalTouched = (int)touchY/ blockSize;
-
-        // Did the shot hit the sub?
-        hit = horizontalTouched == submarine.getHorizontalPosition()
-                && verticalTouched == submarine.getVerticalPosition();
-
-        // How far away horizontally and vertically
-        // was the shot from the sub
-        int horizontalGap = (int)horizontalTouched -
-                submarine.getHorizontalPosition();
-        int verticalGap = (int)verticalTouched -
-                submarine.getVerticalPosition();
-
-        // Use Pythagoras's theorem to get the
-        // distance travelled in a straight line
-        distanceFromSub = (int)Math.sqrt(
-                ((horizontalGap * horizontalGap) +
-                        (verticalGap * verticalGap)));
-
-        // If there is a hit call boom
-        if(hit)
+        if(isSubmarineHit(horizontalTouched, verticalTouched))
             boom();
-            // Otherwise call draw as usual
         else draw();
     }
+    public boolean isSubmarineHit(float horizontalTouched, float verticalTouched) {
+        hit = horizontalTouched == submarine.getHorizontalPosition()
+                && verticalTouched == submarine.getVerticalPosition();
+        return hit;
+    }
+    public int horizontalGap() {
+        return (int)horizontalTouched -
+                submarine.getHorizontalPosition();
+    }
+    public int verticalGap(){
+        return (int)verticalTouched -
+                submarine.getVerticalPosition();
+    }
+    public int distanceFromSub() {
+        return (int)Math.sqrt(
+                ((horizontalGap() * horizontalGap()) +
+                        (verticalGap() * verticalGap())));
+    }
 
-    // This code says "BOOM!"
+
     void boom(){
 
         gameView.setImageBitmap(blankBitmap);
-
-        // Wipe the screen with a red color
         canvas.drawColor(Color.argb(255, 255, 0, 0));
-
-        // Draw some huge white text
         paint.setColor(Color.argb(255, 255, 255, 255));
         paint.setTextSize(blockSize * 10);
-
         canvas.drawText("BOOM!", blockSize * 4,
                 blockSize * 14, paint);
 
-        // Draw some text to prompt restarting
         paint.setTextSize(blockSize * 2);
         canvas.drawText("Take a shot to start again",
                 blockSize * 8,
                 blockSize * 18, paint);
-
-        // Start a new game
         newGame();
     }
 
-    // This code prints the debugging text
     public void printDebuggingText(){
         paint.setTextSize(blockSize);
         canvas.drawText("numberHorizontalPixels = "
