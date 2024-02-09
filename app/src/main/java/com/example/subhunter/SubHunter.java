@@ -38,7 +38,7 @@ public class SubHunter extends Activity {
     Bitmap blankBitmap;
     Canvas canvas;
     Paint paint;
-
+    private GameDrawer gameDrawer;
 
     private Submarine submarine;
     @Override
@@ -54,7 +54,7 @@ public class SubHunter extends Activity {
         blockSize = numberHorizontalPixels / gridWidth;
         gridHeight = numberVerticalPixels / blockSize;
 
-        submarine = new Submarine(gridWidth, gridHeight);
+
 
         // Initialize all the objects ready for drawing
         blankBitmap = Bitmap.createBitmap(numberHorizontalPixels,
@@ -64,6 +64,8 @@ public class SubHunter extends Activity {
         canvas = new Canvas(blankBitmap);
         gameView = new ImageView(this);
         paint = new Paint();
+        submarine = new Submarine(gridWidth, gridHeight);
+        gameDrawer = new GameDrawer(this, gameView, blankBitmap, canvas, paint);
 
         // Tell Android to set our drawing
         // as the view for this app
@@ -81,51 +83,12 @@ public class SubHunter extends Activity {
 
     }
     public void draw() {
-        gameView.setImageBitmap(blankBitmap);
-        canvas.drawColor(Color.argb(255, 255, 255, 255));
-        paint.setColor(Color.argb(255, 0, 0, 0));
-
-        drawVerticalLines();
-        drawHorizontalLines();
-        drawPlayerShot();
-        resizeText();
-
-        Log.d("Debugging", "In draw");
-        if (debugging) {
-            printDebuggingText();
-        }
+        gameDrawer.draw();
     }
 
-    public void drawVerticalLines() {
-        for(int i = 0; i < gridWidth; i++){
-            canvas.drawLine(blockSize * i, 0,
-                    blockSize * i, numberVerticalPixels,
-                    paint);
-        }
-    }
-    public void drawHorizontalLines() {
-        for(int i = 0; i < gridHeight; i++){
-            canvas.drawLine(0, blockSize * i,
-                    numberHorizontalPixels, blockSize * i,
-                    paint);
-        }
-    }
-    public void drawPlayerShot() {
-        canvas.drawRect(horizontalTouched * blockSize,
-                verticalTouched * blockSize,
-                (horizontalTouched * blockSize) + blockSize,
-                (verticalTouched * blockSize)+ blockSize,
-                paint );
-    }
-    public void resizeText() {
-        paint.setTextSize(blockSize * 2);
-        paint.setColor(Color.argb(255, 0, 0, 255));
-        canvas.drawText(
-                "Shots Taken: " + shotsTaken +
-                        "  Distance: " + distanceFromSub(),
-                blockSize, blockSize * 1.75f,
-                paint);
-    }
+
+
+
 
     @Override
     public boolean onTouchEvent(MotionEvent motionEvent) {
