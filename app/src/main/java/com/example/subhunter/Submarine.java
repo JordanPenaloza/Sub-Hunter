@@ -1,12 +1,12 @@
 package com.example.subhunter;
 
-import java.util.Random;
 
 public class Submarine extends GameObject {
+    public int subHorizontalPosition;
+    public int subVerticalPosition;
 
-    public Submarine(int gridWidth, int gridHeight) {
-        super(gridWidth, gridHeight);
+    public boolean isSubmarineHit(float horTouch, int subHorPos, float vertTouch, int subVertPos) {
+        return horTouch == subHorPos && vertTouch == subVertPos;
     }
-
 }
 
