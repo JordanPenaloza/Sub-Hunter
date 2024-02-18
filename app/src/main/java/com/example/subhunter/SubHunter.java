@@ -26,8 +26,6 @@ public class SubHunter extends Activity {
     int gridHeight;
     float horizontalTouched = -100;
     float verticalTouched = -100;
-    int subHorizontalPosition;
-    int subVerticalPosition;
     boolean hit = false;
     int shotsTaken;
     boolean debugging = false;
@@ -112,18 +110,16 @@ public class SubHunter extends Activity {
                 && verticalTouched == submarine.getVerticalPosition();
         return hit;
     }
-    public int horizontalGap() {
-        return (int)horizontalTouched -
-                submarine.getHorizontalPosition();
-    }
-    public int verticalGap(){
-        return (int)verticalTouched -
-                submarine.getVerticalPosition();
-    }
+
     public int distanceFromSub() {
+        int horizontalGap;
+        int verticalGap;
+
+        horizontalGap = (int)horizontalTouched - submarine.getHorizontalPosition();
+        verticalGap = (int)verticalTouched - submarine.getVerticalPosition();
         return (int)Math.sqrt(
-                ((horizontalGap() * horizontalGap()) +
-                        (verticalGap() * verticalGap())));
+                ((horizontalGap * horizontalGap) +
+                        (verticalGap * verticalGap)));
     }
     void boom(){
 
@@ -162,10 +158,10 @@ public class SubHunter extends Activity {
                         verticalTouched, 50,
                 blockSize * 9, paint);
         canvas.drawText("subHorizontalPosition = " +
-                        subHorizontalPosition, 50,
+                        submarine.getHorizontalPosition(), 50,
                 blockSize * 10, paint);
         canvas.drawText("subVerticalPosition = " +
-                        subVerticalPosition, 50,
+                        submarine.getVerticalPosition(), 50,
                 blockSize * 11, paint);
         canvas.drawText("hit = " + hit,
                 50, blockSize * 12, paint);

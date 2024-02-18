@@ -2,7 +2,7 @@ package com.example.subhunter;
 
 import java.util.Random;
 
-public class GameObject {
+public class GameObject extends SubHunter {
     private int horizontalPosition;
     private int verticalPosition;
 
@@ -27,4 +27,5 @@ public class GameObject {
         horizontalPosition = random.nextInt(gridWidth);
         verticalPosition = random.nextInt(gridHeight);
     }
+
 }
