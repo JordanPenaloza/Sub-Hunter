@@ -29,6 +29,8 @@ public class SubHunter extends Activity {
     boolean hit = false;
     int shotsTaken;
     boolean debugging = false;
+    int horizontalGap;
+    int verticalGap;
 
     // Here are all the objects(instances)
     // of classes that we need to do some drawing
@@ -112,9 +114,6 @@ public class SubHunter extends Activity {
     }
 
     public int distanceFromSub() {
-        int horizontalGap;
-        int verticalGap;
-
         horizontalGap = (int)horizontalTouched - submarine.getHorizontalPosition();
         verticalGap = (int)verticalTouched - submarine.getVerticalPosition();
         return (int)Math.sqrt(
